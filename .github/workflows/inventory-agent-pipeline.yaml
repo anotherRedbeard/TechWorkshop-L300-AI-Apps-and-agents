@@ -7,7 +7,7 @@ on:
       - 'src/app/agents/inventoryAgent_initializer.py'
       - 'src/app/tools/discountLogic.py'
       - 'src/prompts/InventoryAgentPrompt.txt'
-      - '.github/workflows/deploy-inventory-agent.yml'
+      - '.github/workflows/inventory-agent-pipeline.yaml'
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -41,5 +41,5 @@ jobs:
 
       - name: Run inventory agent initializer
         run: |
-          cd app/
+          cd src/
           python app/agents/inventoryAgent_initializer.py

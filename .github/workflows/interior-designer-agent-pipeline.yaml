@@ -7,7 +7,7 @@ on:
       - 'src/app/agents/interiorDesignerAgent_initializer.py'
       - 'src/app/tools/discountLogic.py'
       - 'src/prompts/InteriorDesignerAgentPrompt.txt'
-      - '.github/workflows/deploy-interior-designer-agent.yml'
+      - '.github/workflows/interior-designer-agent-pipeline.yaml'
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -41,5 +41,5 @@ jobs:
 
       - name: Run interior designer agent initializer
         run: |
-          cd app/
+          cd src/
           python app/agents/interiorDesignerAgent_initializer.py
