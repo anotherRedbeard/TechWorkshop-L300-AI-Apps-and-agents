@@ -41,5 +41,5 @@ jobs:
 
       - name: Run cora agent initializer
         run: |
-          cd app/
+          cd src/
           python app/agents/shopperAgent_initializer.py
