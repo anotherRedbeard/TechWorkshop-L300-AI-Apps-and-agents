@@ -1,0 +1,39 @@
+name: Deploy to Azure Container Registry
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    env:
+      REGISTRY: ${{ secrets.ACR_REGISTRY }}
+      IMAGE_NAME: techworkshop-l300-ai-apps-and-agents
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Log in to Azure Container Registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.ACR_REGISTRY }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+
+      - name: Prepare src/ context and inject .env file
+        run: |
+          mkdir docker-src-context
+          cp -r src/* docker-src-context/
+          echo "${ENV}" > docker-src-context/.env
+        env:
+          ENV: ${{ secrets.ENV }}
+
+      - name: Build and push Docker image
+        run: |
+          docker build -t $REGISTRY/$IMAGE_NAME:${{ github.sha }} docker-src-context
+          docker push $REGISTRY/$IMAGE_NAME:${{ github.sha }}
+      
+      - name: Cleanup sensitive context
+        run: rm -rf docker-src-context
